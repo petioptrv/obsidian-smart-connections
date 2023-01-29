@@ -1,27 +1,8 @@
-.sc-list .tree-item-self {
-  display: block;
-  cursor: pointer;
-}
-.sc-list .tree-item-self small {
-  color: var(--color-gray-40);
-}
-.sc-brand {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  background-color: var(--titlebar-background);
-}
-.sc-brand > svg, .sc-brand > p {
-  display: inline;
-  margin: 0 0.1rem 0 0.3rem;
-  font-size: 0.77rem;
-  line-height: 1;
-  color: var(--tab-text-color-focused-active-current);
-  height: 0.88rem;
-  width: auto;
-}
-.sc-context {
-  color: var(--nav-item-color);
-  font-size: var(--nav-item-size);
-  margin: 0.5em 0.5em 1em;
-}
+/*
+
+This CSS file will be included with your plugin, and
+available in the app when your plugin is enabled.
+
+If your plugin does not need CSS, delete this file.
+
+*/

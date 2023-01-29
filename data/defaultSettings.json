@@ -1,0 +1,14 @@
+{
+  "DEFAULT_SETTINGS": {
+    "algorithm": "OpenAI",
+    "apiKey": [],
+    "fileExclusions": [],
+    "folderExclusions": [],
+    "headerExclusions": [],
+    "pathOnly": [],
+    "showFullPath": false,
+    "logRender": false,
+    "logRenderFiles": false,
+    "skipSections": false
+  }
+}
