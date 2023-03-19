@@ -1,26 +1,82 @@
-import {Configurable, loadSettings} from "./settings/settings";
+import {Configurable, Settings} from "./settings/settings";
 import {SCSettings} from "./settings/scSettings";
-import {DEFAULT_SETTINGS} from "../data/defaultSettings.json";
+import {Algorithm} from "./algorithms/algorithms";
+import {AlgorithmName, loadFromSettings} from "./algorithms/loader";
 
-export default class SmartConnectionsPluginBase implements Configurable {
-    settings: SCSettings;
+export interface PluginConcrete {
+    createConcreteSettingsTab(): PluginSettingTabConcrete;
 
-    async onload() {
-        // Configure resources needed by the plugin.
+    // exposed obsidian.Plugin interface
+    loadData(): Promise<any>;
 
-        this.settings = await loadSettings(this, DEFAULT_SETTINGS , this.loadData) as SCSettings;
+    saveData(data: any): Promise<any>;
+
+    addSettingTab(settingTab: PluginSettingTabConcrete): void;
+}
+
+export class SmartConnectionsPluginBase implements Configurable {
+    /**
+     * This class is an adapter (? todo: check if trullly an adapter) to facilitate unit-testing with Obsidian.
+     * @private
+     */
+    private readonly pluginConcrete: PluginConcrete;
+    scSettingsKey: string = "scSettings";
+    algorithmSettingsKey: string = "algorithmSettings";
+    scSettings: SCSettings;
+    algorithm: Algorithm;
+
+    constructor(pluginConcrete: PluginConcrete) {
+        this.pluginConcrete = pluginConcrete;
+    }
+
+    get algorithmName(): string {
+        return AlgorithmName[this.scSettings.algorithm];
+    }
+
+    async onLoad() {
+        const settingsJSON = await this.pluginConcrete.loadData();
+        const scSettingsJSON = (
+            this.scSettingsKey in settingsJSON ? settingsJSON[this.scSettingsKey]: {}
+        );
+        this.scSettings = new SCSettings(scSettingsJSON);
+        const algorithmSettingsJSON = (
+            this.algorithmSettingsKey in settingsJSON
+                ? settingsJSON[this.algorithmSettingsKey]: {}
+        );
+        this.algorithm = loadFromSettings(this.scSettings.algorithm, algorithmSettingsJSON);
+        this.addSettingTab();
     }
 
     async saveSettings() {
-        await this.saveData(this.settings);
+        await this.pluginConcrete.saveData(this.scSettings);
     }
 
-    // we mock the Plugin interface to allow unit-testing (see https://github.com/obsidianmd/obsidian-api/issues/13)
-    async loadData(): Promise<any> {
-        throw  Error("Not implemented");
+    addSettingTab() {
+        const concreteSettingsTab = this.pluginConcrete.createConcreteSettingsTab();
+        return this.pluginConcrete.addSettingTab(concreteSettingsTab);
+    }
+}
+
+export interface PluginSettingTabConcrete {
+    containerEl: HTMLElement;
+}
+
+export class SmartConnectionsSettingsTabBase {
+    private readonly pluginConcrete: PluginConcrete;
+    private readonly settingsTabConcrete: PluginSettingTabConcrete;
+
+    constructor(
+        settingsTabConcrete: PluginSettingTabConcrete,
+        pluginConcrete: PluginConcrete,
+    ) {
+        this.settingsTabConcrete = settingsTabConcrete;
+        this.pluginConcrete = pluginConcrete;
     }
 
-    async saveData(data: any): Promise<any> {
-        throw  Error("Not implemented");
+    displaySettings() {
+        const {
+            containerEl
+        } = this.settingsTabConcrete;
+        containerEl.empty();
     }
 }

@@ -1,7 +1,7 @@
 module.exports = async () => {
     return {
         preset: "ts-jest",
-        testEnvironment: "node",
+        testEnvironment: "jsdom",
         modulePaths: ["node_modules", "<rootDir>/src"],
         roots: ["<rootDir>/"],
         transform: {

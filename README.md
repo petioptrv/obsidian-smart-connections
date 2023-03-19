@@ -75,3 +75,7 @@ The plugin integrates [OpenAI Embeddings](https://beta.openai.com/docs/guides/em
 - This plugin is designed to manage the vector interpretation ("embeddings") of the notes in your vaults. The requirements for managing this can be extensive.
 - While there are many ways to interpret the vector relationships and make them useful this plugin is focused on delivering the core capabilities required to utilize such a system.
 - [ ] TODO make the plugins API for finding relevant content available for re-use by other plugins.
+
+## References
+
+LEAVE ACKNOWLEDGEMENT OF THE ORIGINAL WORK

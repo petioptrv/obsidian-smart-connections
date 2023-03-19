@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-smart-connections",
+	"name": "obsidian-smart-connections-2",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "A plugin for smart connections between notes.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -25,5 +25,8 @@
 		"ts-jest": "^29.0.5",
 		"tslib": "2.4.0",
 		"typescript": "4.7.4"
+	},
+	"dependencies": {
+		"jest-environment-jsdom": "^29.4.1"
 	}
 }
